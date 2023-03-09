@@ -124,12 +124,18 @@ function setMenu(){
       fill(0);
       text('Settings', width*0.5, 35);
       set_tab.html('Back to game');
+      
+      //render setting items
+      button = createButton("Settings");
+      button.size(110,40);
+      button.position(width*0.5-40,200);
     }
   else
     {
       menu = 0;
       set_tab.html('Settings');
       renderBoard();
+      button.hide();
     }
 }
 
