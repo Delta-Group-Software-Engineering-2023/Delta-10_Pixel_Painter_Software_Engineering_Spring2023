@@ -141,30 +141,19 @@ function setMenu(){
 
 function nextColorDisplay(){
   let currentColor = color(col.r, col.g, col.b);
-  current_color = createButton("Current Color");
-  current_color.style("font-size", "13px");
-  current_color.size(100,30);
-  current_color.style("border-radius", "20px");
-  current_color.style("border-color", "transparent");
-  current_color.position(520,500);
-  current_color.style("background-color",currentColor);
-  // current_color.mousePressed(None);
-  
   change_color = createButton("Next Color");
-  change_color.style("font-size", "13px");
-  change_color.size(100,30);
-  change_color.style("border-radius", "20px");
-  change_color.style("border-color", "transparent");
-  change_color.style("border", "20px")
-  change_color.position(520,553);
-  change_color.style("background-color",currentColor);
   change_color.mousePressed(changeColor);
-  // colorRectangle = createButton('');
-  // colorRectangle.attribute('disabled', '')
-  // colorRectangle.style('background-color', currentColor);
   
-  // colorRectangle.size(100, 50);
-  // colorRectangle.position(520, 500);
+  change_color.size(110,40);
+  change_color.position(515,550)
+  change_color.style("border-radius", "20px"); //110
+  change_color.style("border-color", "transparent");
+  
+  colorRectangle = createButton('');
+  colorRectangle.attribute('disabled', '')
+  colorRectangle.style('background-color', currentColor);
+  colorRectangle.size(50, 40);
+  colorRectangle.position(544, 500);
 }
 
 function changeColor(){
