@@ -1,8 +1,8 @@
 var count = 0;
-var click_limit =Infinity; //specifies the number of pixels a user can use to paint
+var click_limit = 10; //specifies the number of pixels a user can use to paint
 var grid = [];
-const rows = 40; // amount of rows on the canvas (20X20) 
-var menu = 0;
+var prev_grid = [];
+let rows; // amount of rows on the canvas (20X20) 
 var col = { 
     r: 0,
     g: 0,
@@ -27,24 +27,41 @@ function setup() {
   
   
   
-  /*btnLog = createButton("Log In");
-  btnLog.size(100,40);
-  btnLog.position(515,2);
-  btnLog.style("border-radius", "20px");
-  btnLog.style("border-color", "transparent");
-  */
-  
+  // btnLog = createButton("Log In");
+  // btnLog.size(100,40);
+  // btnLog.position(515,2);
+  // btnLog.style("border-radius", "20px");
+  // btnLog.style("border-color", "transparent");
+
   
   pixel_count();
   music_player();
   multi_player();
   settings();
+  changeCavas()
   
+  rows = 30;
   canvas = createCanvas(445, 445);
+  strokeWeight(0.15);
   canvas.position(15, 135);
+  // for (let i = 0; i < rows; i++) {
+  //   grid[i] = [false, false, false, false, false, false, false, false, false, false]
+  // }
+
   for (let i = 0; i < rows; i++) {
-    grid[i] = [false, false, false, false, false, false, false, false, false, false]
-  }
+        grid[i] = [];
+        for (let j = 0; j < rows; j++) {
+          grid[i][j] = [255,255,255];
+        }
+      }
+      for (let i = 0; i < rows; i++) {
+        prev_grid[i] = [];
+        for (let j = 0; j < rows; j++) {
+          prev_grid[i][j] = [null,null,null];
+        }
+      }
+
+
   col.r= random(0,255);
   col.g= random(0,255);  // random colors generate after the "page" is reloaded 
   col.b= random(0,255);
@@ -90,7 +107,7 @@ function music_player(){
   //ringm.style("font-family", "Courier New"); //black
   music_tab = createButton(stringm);
   music_tab.size(110,40);
-  music_tab.position(515,325)
+  music_tab.position(515,250)
   music_tab.style("border-radius", "20px"); //110
   music_tab.style("border-color", "transparent");
 }
@@ -98,15 +115,28 @@ function music_player(){
 function multi_player(){
   multiplayer_tab = createButton("Connect");
   multiplayer_tab.size(110,40);
-  multiplayer_tab.position(515,383);
+  multiplayer_tab.position(515,310);
   multiplayer_tab.style("border-radius", "20px");
   multiplayer_tab.style("border-color", "transparent");
 }
 
 function settings(){
-  set_tab = createButton("Settings");
+  /*
+  set_tab = createSelect();
+  set_tab.option('Small canvas');
+  set_tab.option('Medium canvas');
+  set_tab.option('Large canvas');
+  set_tab.changed(changeCanvas_size);
+  
   set_tab.size(110,40);
   set_tab.position(515,441);
+  set_tab.style("background-color","rgb(240,240,240)");
+  set_tab.style("border-radius", "20px");
+  set_tab.style("border-color", "transparent");
+  */
+  set_tab = createButton("Settings");
+  set_tab.size(110,40);
+  set_tab.position(515,370);
   set_tab.style("border-radius", "20px");
   set_tab.style("border-color", "transparent");
   //t_tab.style("color", "white");
@@ -140,6 +170,7 @@ function setMenu(){
 }
 
 function nextColorDisplay(){
+  
   let currentColor = color(col.r, col.g, col.b);
   change_color = createButton("Next Color");
   change_color.mousePressed(changeColor);
@@ -148,12 +179,12 @@ function nextColorDisplay(){
   change_color.position(515,550)
   change_color.style("border-radius", "20px"); //110
   change_color.style("border-color", "transparent");
-  
   colorRectangle = createButton('');
   colorRectangle.attribute('disabled', '')
   colorRectangle.style('background-color', currentColor);
   colorRectangle.size(50, 40);
-  colorRectangle.position(544, 500);
+  colorRectangle.position(545, 500);
+  colorRectangle.style('border-radius', '20px');
 }
 
 function changeColor(){
@@ -161,33 +192,44 @@ function changeColor(){
   col.g= random(0,255);  // random colors generate after the "page" is reloaded 
   col.b= random(0,255);
   nextColorDisplay();
-
 }
 
-function painterInput(){
-  if (menu == 0)
-    {
-      let spotX = floor(mouseX / (width / rows));
-      let spotY = floor(mouseY / (width / rows));
-      if (count < click_limit){
-      grid[spotX][spotY] = !grid[spotX][spotY];
-      count ++; 
-      }
-      renderBoard();
-      updateCounter();
-    }
-  else if (menu == 1)
-    {
-      
-    }
+function changeCavas(){
+  canvasSize_tab = createSelect();
+  canvasSize_tab.option('Small canvas');
+  canvasSize_tab.option('Medium canvas');
+  canvasSize_tab.option('Large canvas');
+  canvasSize_tab.changed(changeCanvas_size);
+  canvasSize_tab.size(110,40);
+  canvasSize_tab.position(515,450);
+  canvasSize_tab.style("background-color","rgb(240,240,240)");
+  canvasSize_tab.style("border-radius", "20px");
+  canvasSize_tab.style("border-color", "transparent");
 }
+
+function changeCanvas_size(){
+  let val = canvasSize_tab.value();
+   if(val == 'Small canvas'){
+     rows = 20;
+    
+   } 
+   else if(val == 'Medium canvas'){
+     rows = 30;
+ 
+   }
+   else if(val == 'Large canvas'){
+     rows = 45;
+   } 
+ }
 
 function updateCounter() {
-  if (used_pixels_count < click_limit){
-    used_pixels_count++;
-  }
-  if (pixel_bar_count > 0) {
-    pixel_bar_count--;
+  let spotX = floor(mouseX / (width / rows));
+  let spotY = floor(mouseY / (width / rows));
+  if(grid[spotX][spotY] ){
+    used_pixels_count++
+    pixel_bar_count--
+  }else{
+    used_pixels_count--;
   }
   remText.html( pixel_bar_count);
   usedText.html ( used_pixels_count);
@@ -196,10 +238,29 @@ function updateCounter() {
 function renderBoard(){
    for (let x = 0; x < rows; x++) {
     for (let y = 0; y < rows; y++) {
-      if(grid[x][y]){ 
-       fill(col.r, col.g, col.b);
-      } else {fill(255);}
+      // if(grid[x][y]){ 
+      //  fill(col.r, col.g, col.b);
+      // } else {fill(255);}
+      fill(grid[x][y])
+    
+      
      rect(x*(width / rows),y*(width / rows),width / rows,height / rows)
    }
+  }
+}
+function painterInput(){
+  let spotX = floor(mouseX / (width / rows));
+  let spotY = floor(mouseY / (width / rows));
+ //  if (count < click_limit){
+ //    grid[spotX][spotY] = !grid[spotX][spotY];
+ //    count ++; 
+ //  }
+  if (count < click_limit){
+  prev_grid[spotX][spotY] = grid[spotX][spotY];
+  grid[spotX][spotY] = [col.r, col.g, col.b];
+  console.log(prev_grid[spotX][spotY]);
+  count++;
+  renderBoard();
+  updateCounter();
   }
 }
