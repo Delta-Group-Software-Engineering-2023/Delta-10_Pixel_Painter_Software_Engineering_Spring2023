@@ -1,8 +1,8 @@
 var count = 0;
-var click_limit = 10; //specifies the number of pixels a user can use to paint
+var click_limit = Infinity; //specifies the number of pixels a user can use to paint
 var grid = [];
 var prev_grid = [];
-let rows; // amount of rows on the canvas (20X20)
+var rows; // amount of rows on the canvas (20X20)
 var col = {
    r: 0,
    g: 0,
@@ -37,30 +37,15 @@ function setup() {
  music_player();
  multi_player();
  settings();
- changeCavas()
-  rows = 30;
+ changeCavas();
+  rows = 20;
  canvas = createCanvas(445, 445);
  strokeWeight(0.15);
  canvas.position(15, 135);
  // for (let i = 0; i < rows; i++) {
  //   grid[i] = [false, false, false, false, false, false, false, false, false, false]
  // }
-
-
- for (let i = 0; i < rows; i++) {
-       grid[i] = [];
-       for (let j = 0; j < rows; j++) {
-         grid[i][j] = [255,255,255];
-       }
-     }
-     for (let i = 0; i < rows; i++) {
-       prev_grid[i] = [];
-       for (let j = 0; j < rows; j++) {
-         prev_grid[i][j] = [null,null,null];
-       }
-     }
-
-
+  grid_val();
 
 
  col.r= random(0,255);
@@ -201,14 +186,19 @@ function changeCanvas_size(){
  let val = canvasSize_tab.value();
   if(val == 'Small canvas'){
     rows = 20;
+    grid_val();
   
   }
   else if(val == 'Medium canvas'){
     rows = 30;
+    grid_val();
   }
   else if(val == 'Large canvas'){
     rows = 45;
+    grid_val();
   }
+  usedText.html (count= 0);
+  renderBoard();
 }
 
 
@@ -222,10 +212,11 @@ function updateCounter() {
     used_pixels_count--;
  }
  remText.html( pixel_bar_count);
- usedText.html ( count);
+ usedText.html (count);
  }
 
 function renderBoard(){
+
   for (let x = 0; x < rows; x++) {
    for (let y = 0; y < rows; y++) {
      // if(grid[x][y]){
@@ -233,8 +224,10 @@ function renderBoard(){
      // } else {fill(255);}
      fill(grid[x][y])    
     rect(x*(width / rows),y*(width / rows),width / rows,height / rows)
+    
   }
  }
+
 }
 
 function painterInput(){
@@ -252,9 +245,25 @@ function painterInput(){
       updateCounter();
     }else{
       grid[spotX][spotY] = [255,255,255];
-      count++;
+      count--;
       renderBoard();
       updateCounter();
     }
   }
+}
+
+function grid_val(){
+ for (let i = 0; i < rows; i++) {
+       grid[i] = [];
+       for (let j = 0; j < rows; j++) {
+         grid[i][j] = [255,255,255];
+       }
+     }
+     for (let i = 0; i < rows; i++) {
+       prev_grid[i] = [];
+       for (let j = 0; j < rows; j++) {
+         prev_grid[i][j] = [null,null,null];
+       }
+     }
+
 }
