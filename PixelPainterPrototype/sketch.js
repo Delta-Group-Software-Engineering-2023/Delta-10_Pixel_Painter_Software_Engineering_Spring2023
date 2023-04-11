@@ -11,10 +11,13 @@ var col = {
 var used_pixels_count = 0;
 var pixel_bar_count = click_limit;
 
+let song;
 
 function setup() {
  frameRate(10);
  let c = color('hsba(160, 100%, 50%, 0.5)');
+
+ song = loadSound('sounds.mps');
 
  button = createButton("Pixel Painter");
  button.size(445,60);
@@ -89,8 +92,16 @@ function music_player(){
  music_tab.position(515,250)
  music_tab.style("border-radius", "20px"); //110
  music_tab.style("border-color", "transparent");
+ music_tab.mousePressed(setsong);
 }
 
+function setsong(){
+  if(song.isPlaying()){
+    song.stop();
+  }else{
+    song.play();
+  }
+}
 
 function multi_player(){
  multiplayer_tab = createButton("Connect");
