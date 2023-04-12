@@ -1,5 +1,5 @@
 var count = 0;
-var click_limit = 10; //specifies the number of pixels a user can use to paint
+var click_limit = 100; //specifies the number of pixels a user can use to paint
 var grid = [];
 var prev_grid = [];
 var rows; // amount of rows on the canvas (20X20)
@@ -39,6 +39,7 @@ function setup() {
  music_player();
  multi_player();
  settings();
+ exportDisplay();
  changeCavas();
  rows = 20;
  canvas = createCanvas(445, 445);
@@ -80,9 +81,6 @@ function pixel_count(){
  usedPixels.style("color", "black");
  usedPixels.position(515, 186); //186
 }
-
-
-
 
 function music_player(){
  let stringm = "Music Player";
@@ -149,9 +147,17 @@ function setMenu(){
    }
 }
 
-// Work In Progress
+function exportDisplay(){
+ export_tab = createButton("Export as JPG");
+ export_tab.size(110,40);
+ export_tab.position(10, 590);
+ export_tab.style("border-radius", "20px");
+ export_tab.style("border-color", "transparent");
+ export_tab.mousePressed(exportPixelPainting);
+}
+
 function exportPixelPainting(){
-  saveCanvas()
+  saveCanvas(canvas, 'PixelPainting', 'jpg');
 }
 
 function nextColorDisplay(){
