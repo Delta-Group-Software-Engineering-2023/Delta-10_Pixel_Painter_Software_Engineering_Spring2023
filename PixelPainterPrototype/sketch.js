@@ -11,13 +11,22 @@ var col = {
 var used_pixels_count = 0;
 var pixel_bar_count = click_limit;
 
-let song;
+var song;
+
+function preload(){
+  song = loadSound('lofi.mp3', loaded);
+}
 
 function setup() {
  frameRate(10);
  let c = color('hsba(160, 100%, 50%, 0.5)');
 
- song = loadSound('sounds.mps');
+ musicPlayer = createButton("play")
+ musicPlayer.mousePressed(toggelPlaying);
+ musicPlayer.size(110,40);
+ musicPlayer.position(515,250);
+ musicPlayer.style("border-radius", "20px");
+ musicPlayer.style("border-color", "transparent");
 
  button = createButton("Pixel Painter");
  button.size(445,60);
@@ -57,6 +66,19 @@ function setup() {
  renderBoard();
 }
 
+function toggelPlaying(){
+  if(!song.isPlaying()){
+    song.play();
+    musicPlayer.html("paused");
+  }else{
+    song.pause();
+    musicPlayer.html("play");
+  }
+}
+
+function loaded(){
+  console.log("loaded");
+}
 
 function pixel_count(){
  let v = color('hsba(160, 100%, 30%, 0.65)');
@@ -80,25 +102,6 @@ function pixel_count(){
  usedPixels.style("font-family", "Courier New"); //black
  usedPixels.style("color", "black");
  usedPixels.position(515, 186); //186
-}
-
-function music_player(){
- let stringm = "Music Player";
- //ringm.style("font-family", "Courier New"); //black
- music_tab = createButton(stringm);
- music_tab.size(110,40);
- music_tab.position(515,250)
- music_tab.style("border-radius", "20px"); //110
- music_tab.style("border-color", "transparent");
- music_tab.mousePressed(setsong);
-}
-
-function setsong(){
-  if(song.isPlaying()){
-    song.stop();
-  }else{
-    song.play();
-  }
 }
 
 function multi_player(){
