@@ -45,7 +45,6 @@ function setup() {
 
 
  pixel_count();
- music_player();
  multi_player();
  settings();
  exportDisplay();
