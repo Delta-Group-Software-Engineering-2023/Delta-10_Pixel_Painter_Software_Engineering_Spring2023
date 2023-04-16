@@ -68,10 +68,10 @@ function setup() {
 function toggelPlaying(){
   if(!song.isPlaying()){
     song.play();
-    musicPlayer.html("paused");
+    musicPlayer.html("Pause");
   }else{
     song.pause();
-    musicPlayer.html("play");
+    musicPlayer.html("Play");
   }
 }
 
