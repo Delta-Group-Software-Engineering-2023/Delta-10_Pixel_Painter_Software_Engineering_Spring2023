@@ -1,4 +1,5 @@
 var count = 0;
+var menu = 0;
 var darkCounter = 0;
 var click_limit = 100; //specifies the number of pixels a user can use to paint
 var grid = [];
