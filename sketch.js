@@ -1,4 +1,5 @@
 var count = 0;
+var darkCounter = 0;
 var click_limit = 100; //specifies the number of pixels a user can use to paint
 var grid = [];
 var prev_grid = [];
@@ -136,17 +137,38 @@ function setMenu(){
      set_tab.html('Back to game');
     
      //render setting items
-     button = createButton("Settings");
-     button.size(110,40);
-     button.position(width*0.5-40,200);
+     darkButton = createButton("Dark Mode");
+     darkButton.size(110,40);
+     darkButton.position(width*0.5-40,200);
+     darkButton.style('border-radius', '20px');
+     darkButton.style("border-color", "transparent");
+     darkButton.mousePressed (darkModeFunction);
+     if (darkCounter % 2 == 0) {
+      darkButton.html("Dark Mode");
+     } else if (darkCounter % 2 == 1) {
+      darkButton.html("Light Mode");
+     }
    }
  else
    {
      menu = 0;
      set_tab.html('Settings');
      renderBoard();
-     button.hide();
+     darkButton.hide();
    }
+}
+
+function darkModeFunction() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+  if (darkCounter % 2 == 0) {
+    remPixels.style("color", "white");
+    usedPixels.style("color", "white");
+  } else if (darkCounter % 2 == 1) {
+    remPixels.style("color", "black");
+    usedPixels.style("color", "black");
+  }
+  darkCounter++;
 }
 
 function exportDisplay(){
