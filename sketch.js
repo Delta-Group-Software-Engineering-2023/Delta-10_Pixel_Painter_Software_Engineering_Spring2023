@@ -187,9 +187,10 @@ function clearBoardFunction() {
      rect(x*(width / rows),y*(width / rows),width / rows,height / rows)
   }
  }
-  used_pixels_count = 0;
-  pixel_bar_count = click_limit;
-  count = 0;
+  usedText.html (count= 0);
+  resetClickLimit();
+  remText.html( pixel_bar_count);
+  usedText.html(count);
 }
 function exportDisplay(){
  export_tab = createButton("Export as JPG");
