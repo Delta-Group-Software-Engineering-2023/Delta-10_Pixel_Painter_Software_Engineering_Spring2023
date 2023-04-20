@@ -139,10 +139,17 @@ function setMenu(){
     
      //render setting items
      darkButton = createButton("Dark Mode");
+     clearButton = createButton ("Clear Board");
      darkButton.size(110,40);
+     clearButton.size(110, 40);
      darkButton.position(width*0.5-40,200);
+     clearButton.position(width*0.5-40, 275);
      darkButton.style('border-radius', '20px');
      darkButton.style("border-color", "transparent");
+     clearButton.style('border-radius', '20px');
+     clearButton.style("border-color", "transparent");
+     
+     clearButton.mousePressed (clearBoardFunction);
      darkButton.mousePressed (darkModeFunction);
      if (darkCounter % 2 == 0) {
       darkButton.html("Dark Mode");
@@ -156,6 +163,7 @@ function setMenu(){
      set_tab.html('Settings');
      renderBoard();
      darkButton.hide();
+     clearButton.hide();
    }
 }
 
@@ -172,6 +180,17 @@ function darkModeFunction() {
   darkCounter++;
 }
 
+function clearBoardFunction() {
+  for (let x = 0; x < rows; x++) {
+   for (let y = 0; y < rows; y++) {
+     grid[x][y] = [255, 255, 255]  
+     rect(x*(width / rows),y*(width / rows),width / rows,height / rows)
+  }
+ }
+  used_pixels_count = 0;
+  pixel_bar_count = click_limit;
+  count = 0;
+}
 function exportDisplay(){
  export_tab = createButton("Export as JPG");
  export_tab.size(110,40);
