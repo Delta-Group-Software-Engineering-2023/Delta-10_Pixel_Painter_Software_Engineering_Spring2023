@@ -136,7 +136,8 @@ function setMenu(){
      fill(0);
      text('Settings', width*0.5, 35);
      set_tab.html('Back to game');
-    
+     canvas.mouseClicked(!painterInput)
+   
      //render setting items
      darkButton = createButton("Dark Mode");
      clearButton = createButton ("Clear Board");
@@ -160,6 +161,7 @@ function setMenu(){
  else
    {
      menu = 0;
+     canvas.mouseClicked(painterInput)
      set_tab.html('Settings');
      renderBoard();
      darkButton.hide();
