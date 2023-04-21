@@ -183,8 +183,7 @@ function darkModeFunction() {
 function clearBoardFunction() {
   for (let x = 0; x < rows; x++) {
    for (let y = 0; y < rows; y++) {
-     grid[x][y] = [255, 255, 255]  
-     rect(x*(width / rows),y*(width / rows),width / rows,height / rows)
+     grid[x][y] = [255, 255, 255]
   }
  }
   usedText.html (count= 0);
