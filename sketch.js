@@ -1,4 +1,6 @@
 var count = 0;
+var menu = 0;
+var darkCounter = 0;
 var click_limit = 100; //specifies the number of pixels a user can use to paint
 var grid = [];
 var prev_grid = [];
@@ -37,13 +39,6 @@ function setup() {
  button.style("color", "white"); //white
  button.style("font-size", "27px"); //27
  
-  // btnLog = createButton("Log In");
- // btnLog.size(100,40);
- // btnLog.position(515,2);
- // btnLog.style("border-radius", "20px");
- // btnLog.style("border-color", "transparent");
-
-
  pixel_count();
  multi_player();
  settings();
@@ -110,19 +105,14 @@ function multi_player(){
  multiplayer_tab.style("border-radius", "20px");
  multiplayer_tab.style("border-color", "transparent");
 }
-
-
 function settings(){
  set_tab = createButton("Settings");
  set_tab.size(110,40);
  set_tab.position(515,370);
  set_tab.style("border-radius", "20px");
  set_tab.style("border-color", "transparent");
- //t_tab.style("color", "white");
- //t_tab.style("background-color", "yellow"); //blue
  set_tab.mousePressed(setMenu);
 }
-
 
 function setMenu(){
  if (menu == 0)
@@ -134,19 +124,62 @@ function setMenu(){
      fill(0);
      text('Settings', width*0.5, 35);
      set_tab.html('Back to game');
-    
+     canvas.mouseClicked(!painterInput)
+   
      //render setting items
-     button = createButton("Settings");
-     button.size(110,40);
-     button.position(width*0.5-40,200);
+     darkButton = createButton("Dark Mode");
+     clearButton = createButton ("Clear Board");
+     darkButton.size(110,40);
+     clearButton.size(110, 40);
+     darkButton.position(width*0.5-40,200);
+     clearButton.position(width*0.5-40, 275);
+     darkButton.style('border-radius', '20px');
+     darkButton.style("border-color", "transparent");
+     clearButton.style('border-radius', '20px');
+     clearButton.style("border-color", "transparent");
+     
+     clearButton.mousePressed (clearBoardFunction);
+     darkButton.mousePressed (darkModeFunction);
+     if (darkCounter % 2 == 0) {
+      darkButton.html("Dark Mode");
+     } else if (darkCounter % 2 == 1) {
+      darkButton.html("Light Mode");
+     }
    }
  else
    {
      menu = 0;
+     canvas.mouseClicked(painterInput)
      set_tab.html('Settings');
      renderBoard();
-     button.hide();
+     darkButton.hide();
+     clearButton.hide();
    }
+}
+
+function darkModeFunction() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+  if (darkCounter % 2 == 0) {
+    remPixels.style("color", "white");
+    usedPixels.style("color", "white");
+  } else if (darkCounter % 2 == 1) {
+    remPixels.style("color", "black");
+    usedPixels.style("color", "black");
+  }
+  darkCounter++;
+}
+
+function clearBoardFunction() {
+  for (let x = 0; x < rows; x++) {
+   for (let y = 0; y < rows; y++) {
+     grid[x][y] = [255, 255, 255]
+  }
+ }
+  usedText.html (count= 0);
+  resetClickLimit();
+  remText.html( pixel_bar_count);
+  usedText.html(count);
 }
 
 function exportDisplay(){
@@ -241,9 +274,6 @@ function updateCounter() {
 function renderBoard(){
   for (let x = 0; x < rows; x++) {
    for (let y = 0; y < rows; y++) {
-     // if(grid[x][y]){
-     //  fill(col.r, col.g, col.b);
-     // } else {fill(255);}
      fill(grid[x][y])    
     rect(x*(width / rows),y*(width / rows),width / rows,height / rows)   
   }
@@ -253,10 +283,6 @@ function renderBoard(){
 function painterInput(){
   let spotX = floor(mouseX / (width / rows));
   let spotY = floor(mouseY / (width / rows));
- //  if (count < click_limit){
- //    grid[spotX][spotY] = !grid[spotX][spotY];
- //    count ++; 
- //  }
   if (count < click_limit){
     if (grid[spotX][spotY][0] === 255 && grid[spotX][spotY][1] === 255 && grid[spotX][spotY][2] === 255 ) {
       grid[spotX][spotY] = [col.r, col.g, col.b];
