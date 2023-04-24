@@ -236,14 +236,23 @@ function changeCavas(){
 function changeCanvas_size(){
  let val = canvasSize_tab.value();
   if(val == 'Small canvas'){
+    if(menu == 1) {
+      setMenu();
+    }
     rows = 20;
     grid_val();
   }
   else if(val == 'Medium canvas'){
+    if(menu == 1) {
+      setMenu();
+    }
     rows = 30;
     grid_val();
   }
   else if(val == 'Large canvas'){
+    if(menu == 1) {
+      setMenu();
+    }
     rows = 45;
     grid_val();
   }
