@@ -31,4 +31,4 @@ io.on('connection', (socket) => {
     io.emit('grid', grid);
   });
 });
-}
+
