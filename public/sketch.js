@@ -15,9 +15,9 @@ var socket;
 
 //var song;
 
-/*function preload() {
-  song = loadSound("lofi.mp3", loaded);
-}*/
+function preload() {
+  grid = loadJSON('grid.json');
+}
 
 function setup() {
   frameRate(10);
@@ -68,6 +68,10 @@ function setup() {
   socket = io.connect("http://localhost:3000", updateCanvas);
   //if data called pixel is transmitted, call updateCanvas()
   socket.on("pixel", updateCanvas);
+  saveJSON(grid, 'grid.json');
+  socket.on('grid', (data)=> {
+    grid= data;
+  });
 }
 
 /*function toggelPlaying() {
@@ -273,28 +277,9 @@ function painterInput() {
     }
   }
   //create a variable to store grid information
-  var data = {
-    x: spotX,
-    y: spotY,
-    r: col.r,
-    g: col.g,
-    b: col.b,
-  };
-  console.log(
-    "Sending: " +
-      "X:" +
-      spotX +
-      " Y:" +
-      spotY +
-      " R:" +
-      col.r +
-      " G:" +
-      col.g +
-      " B:" +
-      col.b
-  );
+ 
   //send the grid information
-  socket.emit("pixel", data);
+  socket.emit("pixel", { spotX, spotY, col});
 }
 
 //following function redraws the canvas after getting data from other players

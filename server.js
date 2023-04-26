@@ -17,15 +17,18 @@ var io = socket(server, {
   },
 });
 
-io.sockets.on("connection", newConnection);
+const grid = JSON.parse(fs.readFileSync('grid.json'));
 
-function newConnection(socket) {
-  console.log("new connection:" + socket.id);
-  socket.on("pixel", pixelMsg);
-
-  function pixelMsg(data) {
-    io.sockets.emit("pixel", data);
-    //socket.broadcast.emit("pixel", data);
-    console.log(data);
-  }
+io.on('connection', (socket) => {
+  // Send the grid to the client
+  socket.emit('grid', grid);
+  
+  // Listen for color changes from the client
+  socket.on('color', ({ i, j, color }) => {
+    grid[i][j] = color;
+    
+    // Send the updated grid to all clients
+    io.emit('grid', grid);
+  });
+});
 }
