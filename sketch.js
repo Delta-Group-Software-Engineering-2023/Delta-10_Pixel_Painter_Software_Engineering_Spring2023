@@ -170,17 +170,23 @@ function darkModeFunction() {
   darkCounter++;
 }
 
+////////////////////////////
 function clearBoardFunction() {
   for (let x = 0; x < rows; x++) {
-   for (let y = 0; y < rows; y++) {
-     grid[x][y] = [255, 255, 255]
+    for (let y = 0; y < rows; y++) {
+      grid[x][y] = [255, 255, 255];
+    }
   }
- }
   usedText.html (count= 0);
   resetClickLimit();
   remText.html( pixel_bar_count);
   usedText.html(count);
+  console.log("Board cleared!");
 }
+
+setTimeout(clearBoardFunction, 180000)
+
+////////////////////////////
 
 function exportDisplay(){
  export_tab = createButton("Export as JPG");
