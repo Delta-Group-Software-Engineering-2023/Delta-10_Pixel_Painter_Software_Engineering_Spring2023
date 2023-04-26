@@ -11,7 +11,7 @@ var socket = require("socket.io");
 
 var io = socket(server, {
   cors: {
-    origin: "http://localost:3000",
+    origin: "http://localost:8080",
     methods: ["GET", "POST"],
     credentials: true,
   },

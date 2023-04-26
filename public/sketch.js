@@ -65,7 +65,7 @@ function setup() {
   renderBoard();
 
   //connect to the node server
-  socket = io.connect("http://localhost:3000", updateCanvas);
+  socket = io.connect("deltathengame.com:8080", updateCanvas);
   //if data called pixel is transmitted, call updateCanvas()
   socket.on("pixel", updateCanvas);
   saveJSON(grid, 'grid.json');
