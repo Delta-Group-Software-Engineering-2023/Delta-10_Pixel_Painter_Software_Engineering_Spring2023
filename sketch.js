@@ -12,6 +12,7 @@ var col = {
 }
 var used_pixels_count = 0;
 var pixel_bar_count = click_limit;
+const clearTimeLimit = 180000;
 
 var song;
 
@@ -58,7 +59,20 @@ function setup() {
  canvas.mouseClicked(painterInput); // Prevents pixel counter from tracking input off canvas.
   background(200);
  renderBoard();
+ startClearing();
 }
+
+////
+function startClearing() {
+  setTimeout(function() {
+    clearCanvas();
+    renderBoard();
+    count = 0;
+    startClearing();
+  }, clearTimeLimit); 
+}
+////
+
 
 function toggelPlaying(){
   if(!song.isPlaying()){
@@ -171,20 +185,14 @@ function darkModeFunction() {
 }
 
 ////////////////////////////
-function clearBoardFunction() {
-  for (let x = 0; x < rows; x++) {
-    for (let y = 0; y < rows; y++) {
-      grid[x][y] = [255, 255, 255];
+function clearCanvas() {
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < rows; j++) {
+      grid[i][j] = false;
     }
   }
-  usedText.html (count= 0);
-  resetClickLimit();
-  remText.html( pixel_bar_count);
-  usedText.html(count);
-  console.log("Board cleared!");
+  background(255);
 }
-
-setTimeout(clearBoardFunction, 180000)
 
 ////////////////////////////
 
