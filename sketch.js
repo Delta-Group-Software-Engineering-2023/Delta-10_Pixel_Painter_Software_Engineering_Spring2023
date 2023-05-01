@@ -268,14 +268,15 @@ function resetClickLimit(){
 }
 
 function updateCounter() {
- let spotX = floor(mouseX / (width / rows));
- let spotY = floor(mouseY / (width / rows));
- if(grid[spotX][spotY] ){
-    used_pixels_count++
-    pixel_bar_count--;
- }else{
-    used_pixels_count--;
- }
+//  let spotX = floor(mouseX / (width / rows));
+//  let spotY = floor(mouseY / (width / rows));
+//  if(grid[spotX][spotY] ){
+//     // used_pixels_count++
+//     pixel_bar_count--;
+//  }else{
+//     // used_pixels_count--;
+//     pixel_bar_count++;
+//  }
  remText.html( pixel_bar_count);
  usedText.html (count);
  }
@@ -296,11 +297,13 @@ function painterInput(){
     if (grid[spotX][spotY][0] === 255 && grid[spotX][spotY][1] === 255 && grid[spotX][spotY][2] === 255 ) {
       grid[spotX][spotY] = [col.r, col.g, col.b];
       count++;
+      pixel_bar_count--;
       renderBoard();
       updateCounter();
     }else{
       grid[spotX][spotY] = [255,255,255];
-      count++;
+      count--;
+      pixel_bar_count++;
       renderBoard();
       updateCounter();
     }
